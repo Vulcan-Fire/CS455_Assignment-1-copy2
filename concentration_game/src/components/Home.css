@@ -1,0 +1,43 @@
+.HomeContainer {
+  background-image: url("../images/concentration_home.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.HomeHeader {
+  text-align: center;
+  color: white;
+}
+
+.Welcome {
+  font-size: 50px;
+}
+
+.Tagline {
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+.StartLink {
+  background-color: #2f83bf;
+  padding: 15px 30px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.StartLink:hover {
+  background-color: #588ec0;
+  transform: scale(1.05);
+}
