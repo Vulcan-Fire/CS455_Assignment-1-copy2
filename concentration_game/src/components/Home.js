@@ -12,7 +12,7 @@ function Home() {
         <p className="Tagline">
           Challenge Your Memory, Conquer the Grid
         </p>
-        <Link to="/game" className="StartLink">
+        <Link to="/instructions" className="StartLink">
           Start Game
         </Link>
       </header>
