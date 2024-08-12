@@ -10,11 +10,11 @@ function Grid() {
   );
 
   return (
-    <div className="Grid">
+    <div className="grid">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="Row">
+        <div key={rowIndex} className="row">
           {row.map(({ rowIndex, colIndex }) => (
-            <div key={colIndex} className="Cell"></div>
+            <div key={colIndex} className="cell"></div>
           ))}
         </div>
       ))}
