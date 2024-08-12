@@ -24,6 +24,7 @@ const AudioPlayer = ({ src, volume = 0.5, loop = true }) => {
 
   return (
     <div className="audio-player-container">
+      <audio ref={audioRef} src={src} loop={loop} />
       <a href="/" className="home-link">
         <button className="home-button">
           Home
