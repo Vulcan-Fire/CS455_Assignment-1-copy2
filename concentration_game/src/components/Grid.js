@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Grid.css";
+import { generateRandomBlocks, startColorChangeTimer } from "./Utils";
 
 function Grid() {
   const rows = 8;
   const columns = 8;
+  const totalBlocks = rows * columns;
+  const numDifferent = 10;
 
-  const grid = Array.from({ length: rows }, (_, rowIndex) =>
-    Array.from({ length: columns }, (_, colIndex) => ({ rowIndex, colIndex }))
-  );
+  const initialBlocks = generateRandomBlocks(totalBlocks, "blue");
+  const [blocks, setBlocks] = useState(initialBlocks);
+
+  useEffect(() => {
+    const clearTimer = startColorChangeTimer(setBlocks, initialBlocks, 3000);
+    return clearTimer;
+  }, [initialBlocks, totalBlocks, numDifferent]);
 
   return (
-    <div className="grid">
-      {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
-          {row.map(({ rowIndex, colIndex }) => (
-            <div key={colIndex} className="cell"></div>
-          ))}
-        </div>
-      ))}
+    <div className="container">
+      <div className="grid">
+        {blocks.map((block, index) => (
+          <div
+            key={index}
+            className="cell"
+            style={{ backgroundColor: block.color }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
