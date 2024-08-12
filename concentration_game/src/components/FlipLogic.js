@@ -1,57 +1,55 @@
 import { useState, useEffect } from "react";
 import { generateRandomBlocks } from "./Util";
 
-const useGameLogic = (totalBlocks) => {
-  const numDifferent = 10;
-  const [blocks, setBlocks] = useState(
-    generateRandomBlocks(totalBlocks, numDifferent)
-  );
-  const [flippedBlocks, setFlippedBlocks] = useState(
-    Array(totalBlocks).fill(false)
-  );
+const useGameLogic = (totalBlocks, numDifferent) => {
+  const [blocks, setBlocks] = useState([]);
+  const [flippedBlocks, setFlippedBlocks] = useState([]);
   const [isGameVisible, setIsGameVisible] = useState(true);
   const [isGameWon, setIsGameWon] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsGameVisible(false);
-    }, 5000);
+    initializeGame();
+  }, [totalBlocks, numDifferent]);
 
-    return () => clearTimeout(timer);
-  }, [blocks]);
+  const initializeGame = () => {
+    const initialBlocks = generateRandomBlocks(totalBlocks, numDifferent);
+    setBlocks(initialBlocks);
+    setFlippedBlocks(new Array(totalBlocks).fill(false));
+    setIsGameVisible(true);
+    setIsGameWon(false);
+    setIsGameOver(false);
+
+    setTimeout(() => {
+      setIsGameVisible(false);
+    }, 3000);
+  };
 
   const handleBlockClick = (index) => {
-    if (isGameVisible || isGameOver || isGameWon || flippedBlocks[index])
-      return;
+    if (isGameVisible || isGameOver || flippedBlocks[index]) return;
 
     const newFlippedBlocks = [...flippedBlocks];
     newFlippedBlocks[index] = true;
     setFlippedBlocks(newFlippedBlocks);
 
-    if (!blocks[index].isDifferent) {
-      setIsGameOver(true);
-    } else {
-      const newCorrectCount = correctCount + 1;
-      setCorrectCount(newCorrectCount);
+    if (blocks[index].isDifferent) {
+      const totalColoredTiles = blocks.filter(
+        (block) => block.isDifferent
+      ).length;
+      const flippedColoredTiles = blocks
+        .map((block, idx) => block.isDifferent && newFlippedBlocks[idx])
+        .filter(Boolean).length;
 
-      const allCorrectBlocksFlipped = blocks.every(
-        (block, i) => !block.isDifferent || newFlippedBlocks[i]
-      );
-      if (allCorrectBlocksFlipped) {
+      if (flippedColoredTiles === totalColoredTiles) {
         setIsGameWon(true);
       }
+    } else {
+      setIsGameOver(true);
     }
   };
 
   const resetGame = () => {
-    setBlocks(generateRandomBlocks(totalBlocks));
-    setFlippedBlocks(Array(totalBlocks).fill(false));
-    setIsGameVisible(true);
-    setIsGameWon(false);
-    setIsGameOver(false);
-    setCorrectCount(0);
+    initializeGame();
   };
 
   return {
@@ -60,7 +58,6 @@ const useGameLogic = (totalBlocks) => {
     isGameVisible,
     isGameWon,
     isGameOver,
-    correctCount,
     handleBlockClick,
     resetGame,
   };
