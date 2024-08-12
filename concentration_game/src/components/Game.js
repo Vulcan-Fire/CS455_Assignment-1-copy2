@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GameBoard from "./Board";
-import { generateRandomBlocks } from "./Utils";
+import { generateRandomBlocks } from "./Util";
 import useGameLogic from "./FlipLogic";
 import "./Game.css";
 
