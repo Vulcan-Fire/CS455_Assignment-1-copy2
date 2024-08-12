@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Instructions from "./components/Instructions";
-import Grid from "./components/Grid";
+import Game from "./components/Game";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/instructions" element={<Instructions />} />
-          <Route path="/game" element={<Grid />} />
+          <Route path="/game" element={<Game />} />
         </Routes>
       </div>
     </Router>
