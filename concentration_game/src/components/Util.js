@@ -1,5 +1,4 @@
 export const generateRandomBlocks = (totalBlocks, numDifferent) => {
-  numDifferent = Math.floor(Math.random() * 10) + 5;
   const differentIndices = new Set();
   while (differentIndices.size < numDifferent) {
     differentIndices.add(Math.floor(Math.random() * totalBlocks));
@@ -9,24 +8,4 @@ export const generateRandomBlocks = (totalBlocks, numDifferent) => {
       ? { color: "#75ab00", isDifferent: true }
       : { color: "#ffffff", isDifferent: false }
   );
-};
-
-export const setColorTimeout = (callback, delay) => {
-  const timer = setTimeout(callback, delay);
-  return () => clearTimeout(timer);
-};
-
-export const startColorChangeTimer = (setBlocks, blocks, delay) => {
-  const callback = () => {
-    setBlocks((prevBlocks) =>
-      prevBlocks.map((block) => ({
-        ...block,
-        color: "#ffffff",
-      }))
-    );
-  };
-
-  const clearTimer = setColorTimeout(callback, delay);
-
-  return clearTimer;
 };
