@@ -14,12 +14,12 @@
 }
 
 .GridContainer {
-  background-color: #361f1f; 
+  background-color: #361f1f;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(32, 28, 28, 0.1);
   margin-bottom: 20px;
-  position: relative; 
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,3 +54,28 @@
   color: #fff;
 }
 
+.grid-heading {
+  color: #ccc;
+}
+
+.play-again-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.play-again-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.play-again-button:active {
+  background-color: #388e3c;
+  transform: scale(1);
+}
