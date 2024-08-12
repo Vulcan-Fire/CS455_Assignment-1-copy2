@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
-import { generateRandomBlocks, startColorChangeTimer } from "./Utils";
+import { generateRandomBlocks, startColorChangeTimer } from "./Util";
 
 function Grid() {
   const rows = 8;
