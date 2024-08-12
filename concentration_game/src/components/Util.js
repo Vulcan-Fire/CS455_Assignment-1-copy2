@@ -10,3 +10,23 @@ export const generateRandomBlocks = (totalBlocks, numDifferent) => {
       : { color: "#ffffff", isDifferent: false }
   );
 };
+
+export const setColorTimeout = (callback, delay) => {
+  const timer = setTimeout(callback, delay);
+  return () => clearTimeout(timer);
+};
+
+export const startColorChangeTimer = (setBlocks, blocks, delay) => {
+  const callback = () => {
+    setBlocks((prevBlocks) =>
+      prevBlocks.map((block) => ({
+        ...block,
+        color: "#ffffff",
+      }))
+    );
+  };
+
+  const clearTimer = setColorTimeout(callback, delay);
+
+  return clearTimer;
+};
