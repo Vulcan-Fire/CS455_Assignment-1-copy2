@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { generateRandomBlocks } from "./Utils";
+import { generateRandomBlocks } from "./Util";
 
 const useGameLogic = (totalBlocks) => {
   const numDifferent = 10;
