@@ -17,7 +17,6 @@ const generateBlocksArray = (totalBlocks, differentIndices) => {
     createBlock(index, differentIndices)
   );
 };
-
 export const generateRandomBlocks = (totalBlocks, numDifferent) => {
   const differentIndices = generateUniqueRandomIndices(totalBlocks, numDifferent);
   return generateBlocksArray(totalBlocks, differentIndices);
