@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./AudioPlayer.css";
 
-const AudioPlayer = ({ src, volume = 0.5, loop = true }) => {
-  const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const togglePlayPause = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  };
-
+const useAudioPlayer = (audioRef, volume, isPlaying) => {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
@@ -21,18 +14,33 @@ const AudioPlayer = ({ src, volume = 0.5, loop = true }) => {
       }
     }
   }, [volume, isPlaying]);
+};
+
+const PlayPauseButton = ({ isPlaying, togglePlayPause }) => (
+  <button className="play-button" onClick={togglePlayPause}>
+    {isPlaying ? "Stop Music" : "Play Music"}
+  </button>
+);
+
+const HomeButton = () => (
+  <a href="/" className="home-link">
+    <button className="home-button">Home</button>
+  </a>
+);
+
+const AudioPlayer = ({ src, volume = 0.5, loop = true }) => {
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayPause = () => setIsPlaying(!isPlaying);
+
+  useAudioPlayer(audioRef, volume, isPlaying);
 
   return (
     <div className="audio-player-container">
       <audio ref={audioRef} src={src} loop={loop} />
-      <a href="/" className="home-link">
-        <button className="home-button">
-          Home
-        </button>
-      </a>
-      <button className="play-button" onClick={togglePlayPause}>
-        {isPlaying ? "Stop Music" : "Play Music"}
-      </button>
+      <HomeButton />
+      <PlayPauseButton isPlaying={isPlaying} togglePlayPause={togglePlayPause} />
     </div>
   );
 };
