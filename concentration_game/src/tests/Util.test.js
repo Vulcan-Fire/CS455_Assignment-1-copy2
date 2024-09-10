@@ -1,4 +1,4 @@
-import { generateRandomBlocks } from './Util';
+import { generateRandomBlocks } from '../components/Util.js';
 
 const generateRandomBlocksMock = jest.fn();
 
