@@ -41,8 +41,8 @@ const GameBoardGrid = ({
     <div
       className="game-board"
       style={{
-        gridTemplateColumns: repeat(${gridSize}, 50px),
-        gridTemplateRows: repeat(${gridSize}, 50px),
+        gridTemplateColumns: `repeat(${gridSize}, 50px)`,
+        gridTemplateRows: `repeat(${gridSize}, 50px)`,
       }}
     >
       {blocks.map((block, index) => (
