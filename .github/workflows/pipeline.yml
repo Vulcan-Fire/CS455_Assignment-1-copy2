@@ -83,7 +83,7 @@ jobs:
       working-directory: concentration_game  
 
     - name: Upload Coverage Report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: concentration_game/coverage/lcov-report  
