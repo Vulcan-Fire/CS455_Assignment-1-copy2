@@ -1,4 +1,5 @@
 ```
+[ReFactoring Changes Documented Here](https://docs.google.com/document/d/1zkYXJVlZqBako1E4Q2pL_oYqsKKaooUW2M7D_NXOs6U/edit?usp=sharing)
 #CS455_Assignment-1
 In Mind Game, you quickly memorize a group of tiles on a grid. That means remembering their location, and maybe even the shapes they create.
 This task challenges a part of your short-term memory called spatial recall — your ability to track location and position within an environment.
