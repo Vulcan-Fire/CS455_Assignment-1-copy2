@@ -10,7 +10,8 @@ Jest: A testing framework for writing and running unit tests, with a focus on Re
 - Workflow run history can be found under Actions tab with reports present under artifacts.
 - Plato analysis report can be found in reports/plato directory.
 - Test Coverage reports can be found in artifacts.
-
+- Progress from Initial to Final is shown in Progress_Report.
+  
 ```
 #CS455_Assignment-1
 In Mind Game, you quickly memorize a group of tiles on a grid. That means remembering their location, and maybe even the shapes they create.
