@@ -9,6 +9,7 @@ Jest: A testing framework for writing and running unit tests, with a focus on Re
 - All test utilities are incorporated in github workflow to run automatically on every commit. 
 - Workflow run history can be found under Actions tab with reports present under artifacts.
 - Plato analysis report can be found in reports/plato directory.
+- Test Coverage reports can be found in artifacts.
 
 ```
 #CS455_Assignment-1
