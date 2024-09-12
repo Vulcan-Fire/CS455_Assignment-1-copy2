@@ -24,13 +24,21 @@ concentration-game/
 │ ├── favicon.ico
 │
 ├── src/
+| | ├── test/
+│ │ ├── Board.test.js
+│ │ ├── Game.test.js
+│ │ ├── Home.test.js
+│ │ ├── Instruction.test.js
+│ │ └── AudioPlayer.test.js
+│ │ ├── Util.test.js
+| |
 │ ├── components/
 │ │ ├── Board.js
 │ │ ├── Game.js
 │ │ ├── Home.js
 │ │ ├── Instruction.js
 │ │ └── AudioPlayer.js
-│ │ ├── Utils.js
+│ │ ├── Util.js
 │ │ ├── Board.css
 │ │ └── AudioPlayer.css
 │ │ └── Game.css
