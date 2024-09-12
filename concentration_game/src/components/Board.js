@@ -1,21 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import "./Board.css";
 
 const Block = ({ block, index, isFlipped, isClickable, handleClick }) => {
+  const blockStyle = {
+    width: "50px",
+    height: "50px",
+    backgroundColor: isFlipped ? block.color : "#e0e0e0",
+    border: "1px solid #000",
+    cursor: isClickable ? "pointer" : "not-allowed",
+    transition: "background-color 0.3s ease",
+  };
+
   return (
     <div
-      data-testid={`block-${index}`}  
+      data-testid={`block-${index}`}
       key={index}
       onClick={handleClick}
-      style={{
-        width: "50px",
-        height: "50px",
-        backgroundColor: isFlipped ? block.color : "#e0e0e0",
-        border: "1px solid #000",
-        cursor: isClickable ? "pointer" : "not-allowed",
-        transition: "background-color 0.3s ease",
-      }}
+      style={blockStyle}
     />
   );
 };
@@ -38,6 +40,7 @@ const GameBoardGrid = ({
   handleBlockClick,
 }) => {
   const gridSize = Math.sqrt(blocks.length);
+
   return (
     <div
       className="game-board"
@@ -48,7 +51,7 @@ const GameBoardGrid = ({
     >
       {blocks.map((block, index) => (
         <Block
-          key={index}
+          key={index} // Ensure this key is unique if blocks are dynamic
           block={block}
           index={index}
           isFlipped={isGameVisible || flippedBlocks[index] || isGameOver}
