@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"; // Import PropTypes
 import GameBoard from "./Board";
 import useGameLogic from "./FlipLogic";
 import "./Game.css";
-
 const levels = [
   { gridSize: 4, name: "Level 1", coloredCells: 5 },
   { gridSize: 6, name: "Level 2", coloredCells: 8 },
@@ -12,9 +11,9 @@ const levels = [
   { gridSize: 8, name: "Level 5", coloredCells: 12 },
 ];
 
-export const getLevelInfo = (currentLevelIndex) => levels[currentLevelIndex];
+const getLevelInfo = (currentLevelIndex) => levels[currentLevelIndex];
 
-export const handleTransition = (
+const handleTransition = (
   setShowTransitionScreen,
   setCurrentLevelIndex,
   resetGame
@@ -27,7 +26,7 @@ export const handleTransition = (
   }, 2000);
 };
 
-export const checkGameCompletion = (
+const checkGameCompletion = (
   isGameWon,
   currentLevelIndex,
   setShowTransitionScreen,
@@ -48,15 +47,13 @@ export const checkGameCompletion = (
   }
 };
 
-export const calculateTilesLeft = (blocks, flippedBlocks) => {
+const calculateTilesLeft = (blocks, flippedBlocks) => {
   const totalColoredTiles = blocks.filter((block) => block.isDifferent).length;
   const flippedColoredTiles = blocks
     .map((block, index) => block.isDifferent && flippedBlocks[index])
     .filter(Boolean).length;
-
   return totalColoredTiles - flippedColoredTiles;
 };
-
 const useMemoryGame = (
   currentLevelIndex,
   setCurrentLevelIndex,
@@ -66,7 +63,6 @@ const useMemoryGame = (
   const currentLevel = getLevelInfo(currentLevelIndex);
   const totalBlocks = currentLevel.gridSize * currentLevel.gridSize;
   const numDifferent = currentLevel.coloredCells;
-
   const {
     blocks,
     flippedBlocks,
@@ -76,7 +72,6 @@ const useMemoryGame = (
     handleBlockClick,
     resetGame,
   } = useGameLogic(totalBlocks, numDifferent, currentLevel.twoColors);
-
   useEffect(() => {
     checkGameCompletion(
       isGameWon,
@@ -87,13 +82,10 @@ const useMemoryGame = (
       setGameCompleted
     );
   }, [isGameWon]);
-
   useEffect(() => {
     resetGame();
   }, [currentLevelIndex]);
-
   const tilesLeft = calculateTilesLeft(blocks, flippedBlocks);
-
   return {
     currentLevel,
     blocks,
@@ -160,32 +152,19 @@ const GameHeader = ({ currentLevel, tilesLeft, totalColoredTiles }) => (
   <div className="GridContainer">
     <h1 className="grid-heading">Memory Game</h1>
     <div className="game-info">
-      <GameInfoItem
-        label="Tiles Left"
-        value={${tilesLeft}/${totalColoredTiles}}
-      />
-      <GameInfoItem label="Level" value={currentLevel.name} />
+      <div className="info-item">
+        Tiles Left: {tilesLeft}/{totalColoredTiles}
+      </div>
+      <div className="info-item">{currentLevel.name}</div>
     </div>
   </div>
 );
-
 GameHeader.propTypes = {
   currentLevel: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
   tilesLeft: PropTypes.number.isRequired,
   totalColoredTiles: PropTypes.number.isRequired,
-};
-
-const GameInfoItem = ({ label, value }) => (
-  <div className="info-item">
-    {label}: {value}
-  </div>
-);
-
-GameInfoItem.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 const TransitionScreen = ({ currentLevelIndex }) => (
@@ -196,11 +175,9 @@ const TransitionScreen = ({ currentLevelIndex }) => (
     </h2>
   </div>
 );
-
 TransitionScreen.propTypes = {
   currentLevelIndex: PropTypes.number.isRequired,
 };
-
 const CongratulationsScreen = () => (
   <div className="congratulations-page">
     <h1>Congratulations!</h1>
@@ -214,15 +191,12 @@ const CongratulationsScreen = () => (
     </button>
   </div>
 );
-
 const RetryButton = ({ resetGame }) => (
   <button onClick={resetGame} className="play-again-button">
     Retry Level
   </button>
 );
-
 RetryButton.propTypes = {
   resetGame: PropTypes.func.isRequired,
 };
-
 export default MemoryGame;
