@@ -1,5 +1,15 @@
 
 [ReFactoring Changes Documented Here](https://docs.google.com/document/d/1zkYXJVlZqBako1E4Q2pL_oYqsKKaooUW2M7D_NXOs6U/edit?usp=sharing)
+
+We used :-
+Plato: A tool for analyzing JavaScript code complexity and generating visual reports.
+ESLint: A tool for identifying and fixing problems in JavaScript code through static analysis.
+Jest: A testing framework for writing and running unit tests, with a focus on React applications.
+
+- All test utilities are incorporated in github workflow to run automatically on every commit. 
+- Workflow run history can be found under Actions tab with reports present under artifacts.
+- Plato analysis report can be found in reports/plato directory.
+
 ```
 #CS455_Assignment-1
 In Mind Game, you quickly memorize a group of tiles on a grid. That means remembering their location, and maybe even the shapes they create.
