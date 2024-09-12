@@ -5,6 +5,7 @@ import "./Board.css";
 const Block = ({ block, index, isFlipped, isClickable, handleClick }) => {
   return (
     <div
+      data-testid={`block-${index}`}  
       key={index}
       onClick={handleClick}
       style={{
