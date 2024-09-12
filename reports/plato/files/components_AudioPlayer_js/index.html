@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">79.85</p>
+      <p class="stat">79.83</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">68</p>
+      <p class="stat">72</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">20.67</p>
+      <p class="stat">20.07</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.38</p>
+      <p class="stat">0.39</p>
     </div>
   </div>
 </div>
@@ -90,7 +90,7 @@
 <div class="container">
   <div class="row">
     <textarea id="file-source" class="col-md-12">import React, { useEffect, useRef, useState } from &quot;react&quot;;
-import PropTypes from &quot;prop-types&quot;; // Import PropTypes
+import PropTypes from &quot;prop-types&quot;;
 import &quot;./AudioPlayer.css&quot;;
 
 const useAudioPlayer = (audioRef, volume, isPlaying) =&gt; {
@@ -109,7 +109,11 @@ const useAudioPlayer = (audioRef, volume, isPlaying) =&gt; {
 };
 
 const PlayPauseButton = ({ isPlaying, togglePlayPause }) =&gt; (
-  &lt;button className=&quot;play-button&quot; onClick={togglePlayPause}&gt;
+  &lt;button
+    className=&quot;play-button&quot;
+    onClick={togglePlayPause}
+    data-testid=&quot;play-pause-button&quot;
+  &gt;
     {isPlaying ? &quot;Stop Music&quot; : &quot;Play Music&quot;}
   &lt;/button&gt;
 );
@@ -120,7 +124,7 @@ PlayPauseButton.propTypes = {
 };
 
 const HomeButton = () =&gt; (
-  &lt;a href=&quot;/&quot; className=&quot;home-link&quot;&gt;
+  &lt;a href=&quot;/&quot; className=&quot;home-link&quot; data-testid=&quot;home-button&quot;&gt;
     &lt;button className=&quot;home-button&quot;&gt;Home&lt;/button&gt;
   &lt;/a&gt;
 );
@@ -134,8 +138,8 @@ const AudioPlayer = ({ src, volume, loop }) =&gt; {
   useAudioPlayer(audioRef, volume, isPlaying);
 
   return (
-    &lt;div className=&quot;audio-player-container&quot;&gt;
-      &lt;audio ref={audioRef} src={src} loop={loop} /&gt;
+    &lt;div className=&quot;audio-player-container&quot; data-testid=&quot;audio-player&quot;&gt;
+      &lt;audio ref={audioRef} src={src} loop={loop} data-testid=&quot;audio-element&quot; /&gt;
       &lt;HomeButton /&gt;
       &lt;PlayPauseButton
         isPlaying={isPlaying}
