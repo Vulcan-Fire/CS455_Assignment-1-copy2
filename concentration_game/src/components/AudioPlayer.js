@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import "./AudioPlayer.css";
 
 const useAudioPlayer = (audioRef, volume, isPlaying) => {
@@ -18,7 +18,11 @@ const useAudioPlayer = (audioRef, volume, isPlaying) => {
 };
 
 const PlayPauseButton = ({ isPlaying, togglePlayPause }) => (
-  <button className="play-button" onClick={togglePlayPause}>
+  <button
+    className="play-button"
+    onClick={togglePlayPause}
+    data-testid="play-pause-button"
+  >
     {isPlaying ? "Stop Music" : "Play Music"}
   </button>
 );
@@ -29,7 +33,7 @@ PlayPauseButton.propTypes = {
 };
 
 const HomeButton = () => (
-  <a href="/" className="home-link">
+  <a href="/" className="home-link" data-testid="home-button">
     <button className="home-button">Home</button>
   </a>
 );
@@ -43,8 +47,8 @@ const AudioPlayer = ({ src, volume, loop }) => {
   useAudioPlayer(audioRef, volume, isPlaying);
 
   return (
-    <div className="audio-player-container">
-      <audio ref={audioRef} src={src} loop={loop} />
+    <div className="audio-player-container" data-testid="audio-player">
+      <audio ref={audioRef} src={src} loop={loop} data-testid="audio-element" />
       <HomeButton />
       <PlayPauseButton
         isPlaying={isPlaying}
