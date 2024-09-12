@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import GameBoard from "./Board";
 import useGameLogic from "./FlipLogic";
 import "./Game.css";
@@ -12,9 +12,9 @@ const levels = [
   { gridSize: 8, name: "Level 5", coloredCells: 12 },
 ];
 
-const getLevelInfo = (currentLevelIndex) => levels[currentLevelIndex];
+export const getLevelInfo = (currentLevelIndex) => levels[currentLevelIndex];
 
-const handleTransition = (
+export const handleTransition = (
   setShowTransitionScreen,
   setCurrentLevelIndex,
   resetGame
@@ -27,7 +27,7 @@ const handleTransition = (
   }, 2000);
 };
 
-const checkGameCompletion = (
+export const checkGameCompletion = (
   isGameWon,
   currentLevelIndex,
   setShowTransitionScreen,
@@ -48,7 +48,7 @@ const checkGameCompletion = (
   }
 };
 
-const calculateTilesLeft = (blocks, flippedBlocks) => {
+export const calculateTilesLeft = (blocks, flippedBlocks) => {
   const totalColoredTiles = blocks.filter((block) => block.isDifferent).length;
   const flippedColoredTiles = blocks
     .map((block, index) => block.isDifferent && flippedBlocks[index])
@@ -136,7 +136,7 @@ const MemoryGame = () => {
       ) : showTransitionScreen ? (
         <TransitionScreen currentLevelIndex={currentLevelIndex} />
       ) : (
-        <>
+        <div className="GameContainer">
           <GameHeader
             currentLevel={currentLevel}
             tilesLeft={tilesLeft}
@@ -150,7 +150,7 @@ const MemoryGame = () => {
             handleBlockClick={handleBlockClick}
           />
           {isGameOver && !isGameWon && <RetryButton resetGame={resetGame} />}
-        </>
+        </div>
       )}
     </div>
   );
@@ -160,10 +160,11 @@ const GameHeader = ({ currentLevel, tilesLeft, totalColoredTiles }) => (
   <div className="GridContainer">
     <h1 className="grid-heading">Memory Game</h1>
     <div className="game-info">
-      <div className="info-item">
-        Tiles Left: {tilesLeft}/{totalColoredTiles}
-      </div>
-      <div className="info-item">{currentLevel.name}</div>
+      <GameInfoItem
+        label="Tiles Left"
+        value={${tilesLeft}/${totalColoredTiles}}
+      />
+      <GameInfoItem label="Level" value={currentLevel.name} />
     </div>
   </div>
 );
@@ -174,6 +175,17 @@ GameHeader.propTypes = {
   }).isRequired,
   tilesLeft: PropTypes.number.isRequired,
   totalColoredTiles: PropTypes.number.isRequired,
+};
+
+const GameInfoItem = ({ label, value }) => (
+  <div className="info-item">
+    {label}: {value}
+  </div>
+);
+
+GameInfoItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 const TransitionScreen = ({ currentLevelIndex }) => (
