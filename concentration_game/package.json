@@ -22,7 +22,9 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.0.0",
-    "jscpd": "^4.0.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "jscpd": "^4.0.0",
+    "jsdom": "^25.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,7 +32,7 @@
     "test": "jest",
     "eject": "react-scripts eject",
     "duplication": "jscpd --min-lines 3 --min-tokens 20 concentration_game/src/",
-    "lint": "eslint . --fix"
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +66,10 @@
     ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "testEnvironment": "jsdom"
   }
 }
