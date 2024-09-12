@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.91</p>
+      <p class="stat">64.92</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">110</p>
+      <p class="stat">111</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">26.54</p>
+      <p class="stat">27.38</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.64</p>
+      <p class="stat">0.80</p>
     </div>
   </div>
 </div>
@@ -89,27 +89,28 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="col-md-12">import React from &quot;react&quot;;
-import PropTypes from &quot;prop-types&quot;;
-import &quot;./Board.css&quot;;
+    <textarea id="file-source" class="col-md-12">import React from &#039;react&#039;;
+import PropTypes from &#039;prop-types&#039;;
+import &#039;./Board.css&#039;;
 
 const Block = ({ block, index, isFlipped, isClickable, handleClick }) =&gt; {
   const blockStyle = {
-    width: &quot;50px&quot;,
-    height: &quot;50px&quot;,
-    backgroundColor: isFlipped ? block.color : &quot;#e0e0e0&quot;,
-    border: &quot;1px solid #000&quot;,
-    cursor: isClickable ? &quot;pointer&quot; : &quot;not-allowed&quot;,
-    transition: &quot;background-color 0.3s ease&quot;,
+    width: &#039;50px&#039;,
+    height: &#039;50px&#039;,
+    backgroundColor: isFlipped ? block.color : &#039;#e0e0e0&#039;,
+    border: &#039;1px solid #000&#039;,
+    cursor: isClickable ? &#039;pointer&#039; : &#039;not-allowed&#039;,
+    transition: &#039;background-color 0.3s ease&#039;,
   };
 
-  return (
-    &lt;div
-      data-testid={`block-${index}`}
-      key={index}
-      onClick={handleClick}
-      style={blockStyle}
-    /&gt;
+  return React.createElement(
+    &#039;div&#039;,
+    {
+      &#039;data-testid&#039;: `block-${index}`,
+      key: index,
+      onClick: isClickable ? () =&gt; handleClick(index) : undefined,
+      style: blockStyle,
+    }
   );
 };
 
@@ -132,25 +133,25 @@ const GameBoardGrid = ({
 }) =&gt; {
   const gridSize = Math.sqrt(blocks.length);
 
-  return (
-    &lt;div
-      className=&quot;game-board&quot;
-      style={{
+  return React.createElement(
+    &#039;div&#039;,
+    {
+      className: &#039;game-board&#039;,
+      style: {
         gridTemplateColumns: `repeat(${gridSize}, 50px)`,
         gridTemplateRows: `repeat(${gridSize}, 50px)`,
-      }}
-    &gt;
-      {blocks.map((block, index) =&gt; (
-        &lt;Block
-          key={index} // Ensure this key is unique if blocks are dynamic
-          block={block}
-          index={index}
-          isFlipped={isGameVisible || flippedBlocks[index] || isGameOver}
-          isClickable={!isGameVisible}
-          handleClick={() =&gt; handleBlockClick(index)}
-        /&gt;
-      ))}
-    &lt;/div&gt;
+      },
+    },
+    blocks.map((block, index) =&gt;
+      React.createElement(Block, {
+        key: index, 
+        block: block,
+        index: index,
+        isFlipped: isGameVisible || flippedBlocks[index] || isGameOver,
+        isClickable: !isGameVisible,
+        handleClick: handleBlockClick,
+      })
+    )
   );
 };
 
@@ -173,16 +174,16 @@ const GameBoard = ({
   isGameOver,
   handleBlockClick,
 }) =&gt; {
-  return (
-    &lt;div className=&quot;game-board-container&quot;&gt;
-      &lt;GameBoardGrid
-        blocks={blocks}
-        flippedBlocks={flippedBlocks}
-        isGameVisible={isGameVisible}
-        isGameOver={isGameOver}
-        handleBlockClick={handleBlockClick}
-      /&gt;
-    &lt;/div&gt;
+  return React.createElement(
+    &#039;div&#039;,
+    { className: &#039;game-board-container&#039; },
+    React.createElement(GameBoardGrid, {
+      blocks: blocks,
+      flippedBlocks: flippedBlocks,
+      isGameVisible: isGameVisible,
+      isGameOver: isGameOver,
+      handleBlockClick: handleBlockClick,
+    })
   );
 };
 
