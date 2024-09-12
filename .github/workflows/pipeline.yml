@@ -36,7 +36,7 @@ jobs:
         run: npm install -g plato
 
       - name: Run Plato
-        run: plato -r -d report concentration_game/src/**/*.js
+        run: plato -r -d report 'concentration_game/src/**/!(*test).js'
 
       - name: List Plato Report Directory
         run: ls -R report
