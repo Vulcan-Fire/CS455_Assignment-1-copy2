@@ -24,7 +24,7 @@ concentration-game/
 │ ├── favicon.ico
 │
 ├── src/
-| | ├── test/
+| | ├── tests/
 │ │ ├── Board.test.js
 │ │ ├── Game.test.js
 │ │ ├── Home.test.js
@@ -57,4 +57,9 @@ concentration-game/
 │ └── index.js
 │
 └── package.json
+└──.babelrc
+└──.eslintignore
+└──.eslintrc.js
+└──.eslintrc.json
+└──.platoignore
 ```
