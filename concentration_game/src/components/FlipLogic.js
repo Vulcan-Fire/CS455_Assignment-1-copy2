@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { generateRandomBlocks } from "./Util";
+import { generateRandomBlocks } from './Util';
+import { useEffect, useState } from 'react';
 
-const initializeGameState = (totalBlocks, numDifferent, setBlocks, setFlippedBlocks, setIsGameVisible, setIsGameWon, setIsGameOver) => {
+export const initializeGameState = (totalBlocks, numDifferent, setBlocks, setFlippedBlocks, setIsGameVisible, setIsGameWon, setIsGameOver) => {
   const initialBlocks = generateRandomBlocks(totalBlocks, numDifferent);
   setBlocks(initialBlocks);
   setFlippedBlocks(new Array(totalBlocks).fill(false));
@@ -14,7 +14,7 @@ const initializeGameState = (totalBlocks, numDifferent, setBlocks, setFlippedBlo
   }, 3000);
 };
 
-const handleBlockClickLogic = (index, blocks, flippedBlocks, setFlippedBlocks, setIsGameWon, setIsGameOver, isGameVisible, isGameOverState) => {
+export const handleBlockClickLogic = (index, blocks, flippedBlocks, setFlippedBlocks, setIsGameWon, setIsGameOver, isGameVisible, isGameOverState) => {
   if (isGameVisible || isGameOverState || flippedBlocks[index]) return;
 
   const newFlippedBlocks = [...flippedBlocks];
@@ -34,6 +34,7 @@ const handleBlockClickLogic = (index, blocks, flippedBlocks, setFlippedBlocks, s
     setIsGameOver(true);
   }
 };
+
 
 const useGameLogic = (totalBlocks, numDifferent) => {
   const [blocks, setBlocks] = useState([]);
