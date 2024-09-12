@@ -19,8 +19,7 @@ module.exports = {
   rules: {
     'no-unused-vars': 'warn',
     'no-console': 'off',
-    'semi': ['error', 'always'],
-    'quotes': ['warn', 'single']
+    'semi': ['error', 'always']
   },
   settings: {
     react: {
