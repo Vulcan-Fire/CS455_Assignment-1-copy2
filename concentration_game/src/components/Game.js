@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types"; 
+import { useNavigate } from "react-router-dom";
 import GameBoard from "./Board";
 import useGameLogic from "./FlipLogic";
 import "./Game.css";
+
 const levels = [
   { gridSize: 4, name: "Level 1", coloredCells: 5 },
   { gridSize: 6, name: "Level 2", coloredCells: 8 },
@@ -26,16 +28,20 @@ const handleTransition = (
   }, 2000);
 };
 
-const checkGameCompletion = (
+const checkGameCompletion = async (
   isGameWon,
   currentLevelIndex,
   setShowTransitionScreen,
   setCurrentLevelIndex,
   resetGame,
-  setGameCompleted
+  setGameCompleted,
+  tilesLeft,
+  currentLevel,
+  username
 ) => {
   if (isGameWon) {
     if (currentLevelIndex < levels.length - 1) {
+      await handleLevelCompletion(currentLevelIndex, tilesLeft, username);
       handleTransition(
         setShowTransitionScreen,
         setCurrentLevelIndex,
@@ -43,9 +49,34 @@ const checkGameCompletion = (
       );
     } else {
       setGameCompleted(true);
+      await handleLevelCompletion(currentLevelIndex, tilesLeft, username);
     }
   }
 };
+
+const handleLevelCompletion = async (currentLevelIndex, tilesLeft, username) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/game/update-score", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        level: currentLevelIndex + 1,
+        correctTilesSelected: levels[currentLevelIndex].coloredCells - tilesLeft,
+        totalTiles: levels[currentLevelIndex].coloredCells,
+      }),
+    });
+
+    const data = await response.json();
+    console.log('Score updated:', data);
+
+  } catch (error) {
+    console.error('Error updating score:', error);
+  }
+};
+
 
 const calculateTilesLeft = (blocks, flippedBlocks) => {
   const totalColoredTiles = blocks.filter((block) => block.isDifferent).length;
@@ -54,11 +85,13 @@ const calculateTilesLeft = (blocks, flippedBlocks) => {
     .filter(Boolean).length;
   return totalColoredTiles - flippedColoredTiles;
 };
+
 const useMemoryGame = (
   currentLevelIndex,
   setCurrentLevelIndex,
   setShowTransitionScreen,
-  setGameCompleted
+  setGameCompleted,
+  username
 ) => {
   const currentLevel = getLevelInfo(currentLevelIndex);
   const totalBlocks = currentLevel.gridSize * currentLevel.gridSize;
@@ -72,6 +105,7 @@ const useMemoryGame = (
     handleBlockClick,
     resetGame,
   } = useGameLogic(totalBlocks, numDifferent, currentLevel.twoColors);
+
   useEffect(() => {
     checkGameCompletion(
       isGameWon,
@@ -79,12 +113,18 @@ const useMemoryGame = (
       setShowTransitionScreen,
       setCurrentLevelIndex,
       resetGame,
-      setGameCompleted
+      setGameCompleted,
+      calculateTilesLeft(blocks, flippedBlocks),
+      handleLevelCompletion(currentLevelIndex,tilesLeft,username),
+      currentLevel,
+      username
     );
   }, [isGameWon]);
+
   useEffect(() => {
     resetGame();
   }, [currentLevelIndex]);
+
   const tilesLeft = calculateTilesLeft(blocks, flippedBlocks);
   return {
     currentLevel,
@@ -99,10 +139,11 @@ const useMemoryGame = (
   };
 };
 
-const MemoryGame = () => {
+const MemoryGame = ({ username }) => {
   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
   const [showTransitionScreen, setShowTransitionScreen] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
+  const navigate = useNavigate();
 
   const {
     currentLevel,
@@ -118,8 +159,16 @@ const MemoryGame = () => {
     currentLevelIndex,
     setCurrentLevelIndex,
     setShowTransitionScreen,
-    setGameCompleted
+    setGameCompleted,
+    username
   );
+
+
+  useEffect(() => {
+    if (isGameOver && !isGameWon) {
+      navigate("/LeaderBoard");
+    }
+  }, [isGameOver, isGameWon, navigate]);
 
   return (
     <div className="MemoryGame">
@@ -146,6 +195,10 @@ const MemoryGame = () => {
       )}
     </div>
   );
+};
+
+MemoryGame.propTypes = {
+  username: PropTypes.string.isRequired,
 };
 
 const GameHeader = ({ currentLevel, tilesLeft, totalColoredTiles }) => (
@@ -178,25 +231,32 @@ const TransitionScreen = ({ currentLevelIndex }) => (
 TransitionScreen.propTypes = {
   currentLevelIndex: PropTypes.number.isRequired,
 };
-const CongratulationsScreen = () => (
-  <div className="congratulations-page">
-    <h1>Congratulations!</h1>
-    <p>You&rsquo;ve conquered all the levels!</p>
-    <p>You&rsquo;re a memory master!</p>
-    <button
-      onClick={() => window.location.reload()}
-      className="play-again-button"
-    >
-      Play Again
-    </button>
-  </div>
-);
+
+const CongratulationsScreen = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="congratulations-page">
+      <h1>Congratulations!</h1>
+      <p>You&rsquo;ve conquered all the levels!</p>
+      <p>You&rsquo;re a memory master!</p>
+      <button
+        onClick={() => navigate("/leaderboard")}
+        className="play-again-button"
+      >
+        View Leaderboard
+      </button>
+    </div>
+  );
+};
+
 const RetryButton = ({ resetGame }) => (
   <button onClick={resetGame} className="play-again-button">
-    Retry Level
+    LeaderBoard
   </button>
 );
 RetryButton.propTypes = {
   resetGame: PropTypes.func.isRequired,
 };
+
 export default MemoryGame;
