@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  tilesNow: {
+    type: Number,
+    default: 0,
+  },
   levels: [
     {
       level: Number,
