@@ -69,20 +69,52 @@ const handleLevelCompletion = async (currentLevelIndex, tilesLeft, username) => 
       }),
     });
 
+    await fetch("http://localhost:5000/api/game/reset-tiles-now", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    });
     const data = await response.json();
     console.log('Score updated:', data);
-
+    
   } catch (error) {
     console.error('Error updating score:', error);
   }
 };
 
+const handleInbetweenLevel = async (username, flippedBlocks) => {
+  const selectedTiles = flippedBlocks.filter((flipped) => flipped).length;
 
-const calculateTilesLeft = (blocks, flippedBlocks) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/game/update-tiles-now", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        tilesNow: selectedTiles,
+      }),
+    });
+
+    const data = await response.json();
+    console.log('TilesNow updated:', data);
+  } catch (error) {
+    console.error('Error updating tilesNow:', error);
+  }
+};
+
+const calculateTilesLeft = (blocks, flippedBlocks, username, currentLevelIndex) => {
   const totalColoredTiles = blocks.filter((block) => block.isDifferent).length;
   const flippedColoredTiles = blocks
     .map((block, index) => block.isDifferent && flippedBlocks[index])
     .filter(Boolean).length;
+  console.log(currentLevelIndex, totalColoredTiles - flippedColoredTiles, username);
+  
+  if(totalColoredTiles - flippedColoredTiles != 0)
+  handleInbetweenLevel(username, flippedBlocks);
   return totalColoredTiles - flippedColoredTiles;
 };
 
@@ -114,8 +146,7 @@ const useMemoryGame = (
       setCurrentLevelIndex,
       resetGame,
       setGameCompleted,
-      calculateTilesLeft(blocks, flippedBlocks),
-      handleLevelCompletion(currentLevelIndex,tilesLeft,username),
+      calculateTilesLeft(blocks, flippedBlocks, username, currentLevelIndex),
       currentLevel,
       username
     );
@@ -125,7 +156,7 @@ const useMemoryGame = (
     resetGame();
   }, [currentLevelIndex]);
 
-  const tilesLeft = calculateTilesLeft(blocks, flippedBlocks);
+  const tilesLeft = calculateTilesLeft(blocks, flippedBlocks, username, currentLevelIndex);
   return {
     currentLevel,
     blocks,
@@ -163,12 +194,26 @@ const MemoryGame = ({ username }) => {
     username
   );
 
-
   useEffect(() => {
+    const resetTilesNowBeforeNavigate = async () => {
+      try {
+        await fetch("http://localhost:5000/api/game/reset-tiles-now", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username }),
+        });
+        navigate("/LeaderBoard");
+      } catch (error) {
+        console.error('Error resetting tilesNow:', error);
+      }
+    };
+
     if (isGameOver && !isGameWon) {
-      navigate("/LeaderBoard");
+      resetTilesNowBeforeNavigate();
     }
-  }, [isGameOver, isGameWon, navigate]);
+  }, [isGameOver, isGameWon, navigate, username]);
 
   return (
     <div className="MemoryGame">
