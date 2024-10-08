@@ -1,18 +1,30 @@
 .leaderboard-container {
+    text-emphasis-color: white;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
   }
+
+h1{
+  color : white;
+}
+
+body {
+  background-image: url("../images/concentration_instructions.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   
+}
   .leaderboard-table {
     width: 100%;
+    border-radius: 20px;
     border-collapse: collapse;
     margin-top: 20px;
   }
   
   .leaderboard-table th, .leaderboard-table td {
-    border: 1px solid #ddd;
     padding: 12px;
   }
   
@@ -21,7 +33,7 @@
     font-weight: bold;
   }
   
-  .leaderboard-table tr:nth-child(even) {
+  .leaderboard-table {
     background-color: #f9f9f9;
   }
   .retry {
