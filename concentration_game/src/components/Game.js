@@ -18,13 +18,11 @@ const getLevelInfo = (currentLevelIndex) => levels[currentLevelIndex];
 const handleTransition = (
   setShowTransitionScreen,
   setCurrentLevelIndex,
-  resetGame
 ) => {
   setShowTransitionScreen(true);
   setTimeout(() => {
     setShowTransitionScreen(false);
     setCurrentLevelIndex((prevIndex) => prevIndex + 1);
-    resetGame();
   }, 2000);
 };
 
@@ -33,7 +31,6 @@ const checkGameCompletion = async (
   currentLevelIndex,
   setShowTransitionScreen,
   setCurrentLevelIndex,
-  resetGame,
   setGameCompleted,
   tilesLeft,
   currentLevel,
@@ -45,7 +42,6 @@ const checkGameCompletion = async (
       handleTransition(
         setShowTransitionScreen,
         setCurrentLevelIndex,
-        resetGame
       );
     } else {
       setGameCompleted(true);
@@ -135,7 +131,6 @@ const useMemoryGame = (
     isGameWon,
     isGameOver,
     handleBlockClick,
-    resetGame,
   } = useGameLogic(totalBlocks, numDifferent, currentLevel.twoColors);
 
   useEffect(() => {
@@ -144,7 +139,6 @@ const useMemoryGame = (
       currentLevelIndex,
       setShowTransitionScreen,
       setCurrentLevelIndex,
-      resetGame,
       setGameCompleted,
       calculateTilesLeft(blocks, flippedBlocks, username, currentLevelIndex),
       currentLevel,
@@ -152,9 +146,6 @@ const useMemoryGame = (
     );
   }, [isGameWon]);
 
-  useEffect(() => {
-    resetGame();
-  }, [currentLevelIndex]);
 
   const tilesLeft = calculateTilesLeft(blocks, flippedBlocks, username, currentLevelIndex);
   return {
@@ -165,7 +156,6 @@ const useMemoryGame = (
     isGameOver,
     isGameWon,
     handleBlockClick,
-    resetGame,
     tilesLeft,
   };
 };
@@ -184,7 +174,6 @@ const MemoryGame = ({ username }) => {
     isGameOver,
     isGameWon,
     handleBlockClick,
-    resetGame,
     tilesLeft,
   } = useMemoryGame(
     currentLevelIndex,
@@ -235,7 +224,7 @@ const MemoryGame = ({ username }) => {
             isGameOver={isGameOver}
             handleBlockClick={handleBlockClick}
           />
-          {isGameOver && !isGameWon && <RetryButton resetGame={resetGame} />}
+          {isGameOver && !isGameWon}
         </div>
       )}
     </div>
@@ -293,15 +282,6 @@ const CongratulationsScreen = () => {
       </button>
     </div>
   );
-};
-
-const RetryButton = ({ resetGame }) => (
-  <button onClick={resetGame} className="play-again-button">
-    LeaderBoard
-  </button>
-);
-RetryButton.propTypes = {
-  resetGame: PropTypes.func.isRequired,
 };
 
 export default MemoryGame;
