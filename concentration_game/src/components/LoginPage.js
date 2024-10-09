@@ -19,10 +19,12 @@ const LoginPage = ({ onLogin }) => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         onLogin(data.username);
+        setUsername('');
+        setPassword('');
         navigate("/game");
       } else {
         const errorData = await response.json();
@@ -32,6 +34,7 @@ const LoginPage = ({ onLogin }) => {
       setErrorMessage("An error occurred. Please try again.");
     }
   };
+  
 
   return (
     <div className="login-container">
