@@ -18,9 +18,14 @@ function App() {
     localStorage.setItem("username", username);
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("username");
+  const handleLogout = async () => {
+    try {
+        await fetch('/api/logout', { method: 'POST' });
+        setIsAuthenticated(false);
+        localStorage.removeItem("username");
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
   };
 
   const LoginPageWithLogout = () => {
